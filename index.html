@@ -80,6 +80,7 @@
             border: 2px solid #fff;
             transform: scale(1);
             z-index: 20;
+            /* El SÍ permanece en su lugar, solo se agranda */
         }
         
         #btnNo {
@@ -89,6 +90,7 @@
             transform: scale(1);
             z-index: 10;
             touch-action: manipulation;
+            /* El NO se moverá hacia la derecha */
         }
         
         #mensajeAbajo {
@@ -708,7 +710,7 @@
 
     <script>
         // ===========================================
-        // SISTEMA DE NO - AHORA CON MOVIMIENTO HACIA LA DERECHA
+        // SISTEMA DE NO - SOLO EL NO SE MUEVE A LA DERECHA
         // ===========================================
         const pantallaPrincipal = document.getElementById('pantallaPrincipal');
         const pantallaSi = document.getElementById('pantallaSi');
@@ -720,8 +722,8 @@
         let contadorNo = 0;
         let escalaSi = 1;
         let escalaNo = 1;
-        let desplazamientoSi = 0;
-        let desplazamientoNo = 0; // <-- NUEVO: desplazamiento para el NO
+        // El SÍ NO se desplaza, solo el NO
+        let desplazamientoNo = 0;
         
         // Evento SÍ
         btnSi.addEventListener('click', function() {
@@ -739,36 +741,31 @@
                 mensajeAbajo.textContent = '¿Segura? 💜';
                 escalaSi += 0.3;
                 escalaNo = 0.85;
-                desplazamientoSi = 0;  // El SÍ se mueve a la derecha
-                desplazamientoNo = 30;   // El NO también se mueve a la derecha
+                desplazamientoNo = 40;      // Solo el NO se mueve
             } else if(contadorNo === 2) {
                 preguntaTexto.textContent = '¿En serio estás tan segura? 🥺';
                 mensajeAbajo.textContent = '¿De verdad, de verdad?';
                 escalaSi += 0.35;
                 escalaNo = 0.7;
-                desplazamientoSi = 0;
-                desplazamientoNo = 60;
+                desplazamientoNo = 80;
             } else if(contadorNo === 3) {
                 preguntaTexto.textContent = '¿Última oportunidad...? 💔';
                 mensajeAbajo.textContent = 'Piénsalo bien...';
                 escalaSi += 0.4;
                 escalaNo = 0.55;
-                desplazamientoSi = 0;
-                desplazamientoNo = 90;
+                desplazamientoNo = 120;
             } else if(contadorNo === 4) {
                 preguntaTexto.textContent = '¿De verdad vas a decir que no? 😭';
                 mensajeAbajo.textContent = 'El SÍ es mucho más grande ahora...';
                 escalaSi += 0.5;
                 escalaNo = 0.4;
-                desplazamientoSi = 0;
-                desplazamientoNo = 120;
+                desplazamientoNo = 200;
             } else if(contadorNo === 5) {
                 preguntaTexto.textContent = '¿Última llamada? 📢';
                 mensajeAbajo.textContent = 'El SÍ te está esperando...';
                 escalaSi += 0.6;
                 escalaNo = 0.25;
-                desplazamientoSi = 0;
-                desplazamientoNo = 350;
+                desplazamientoNo = 400;      // ¡CASI FUERA DEL CARTEL!
             } else if(contadorNo === 6) {
                 pantallaPrincipal.remove();
                 const mensajeFinal = document.createElement('div');
@@ -778,9 +775,9 @@
                 return;
             }
             
-            // Aplicar cambios visuales - AMBOS SE DESPLAZAN A LA DERECHA
-            btnSi.style.transform = `scale(${escalaSi}) translateX(${desplazamientoSi}px)`;
-            btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px)`;
+            // Aplicar cambios visuales
+            btnSi.style.transform = `scale(${escalaSi})`;  // SÍ solo escala, sin desplazamiento
+            btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px)`;  // NO escala y se desplaza
             btnNo.style.opacity = '1';
             btnSi.style.boxShadow = `0 0 ${30 + contadorNo * 10}px rgba(138,43,226,0.9)`;
         }
