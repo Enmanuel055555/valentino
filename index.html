@@ -59,6 +59,7 @@
             align-items: center;
             flex-wrap: wrap;
             position: relative;
+            min-height: 200px; /* Para dar espacio a los movimientos */
         }
         
         button {
@@ -72,6 +73,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             min-width: 120px;
             -webkit-tap-highlight-color: transparent;
+            will-change: transform;
         }
         
         #btnSi {
@@ -80,7 +82,6 @@
             border: 2px solid #fff;
             transform: scale(1);
             z-index: 20;
-            /* El SÍ permanece en su lugar, solo se agranda */
         }
         
         #btnNo {
@@ -90,7 +91,6 @@
             transform: scale(1);
             z-index: 10;
             touch-action: manipulation;
-            /* El NO se moverá hacia la derecha */
         }
         
         #mensajeAbajo {
@@ -106,7 +106,7 @@
             display: none !important;
         }
         
-        /* Pantalla de SÍ */
+        /* Pantalla de SÍ (resto del código sin cambios) */
         #pantallaSi {
             width: 100%;
             max-width: 1600px;
@@ -137,7 +137,6 @@
             opacity: 0.95;
         }
         
-        /* GRID PRINCIPAL - 2 COLUMNAS */
         .apartados-grid {
             display: grid;
             grid-template-columns: minmax(350px, 1fr) minmax(500px, 1.5fr);
@@ -169,7 +168,6 @@
             padding-bottom: 8px;
         }
         
-        /* FOTOS VERTICALES */
         .fotos-vertical {
             display: flex;
             flex-direction: column;
@@ -226,7 +224,6 @@
             }
         }
         
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -254,7 +251,6 @@
             border-radius: 15px;
         }
         
-        /* PELÍCULAS */
         .peliculas-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -306,7 +302,6 @@
             color: #e6c3ff;
         }
         
-        /* RAMO DE FLORES */
         .ramo-container {
             margin-top: 25px;
             padding: 15px;
@@ -336,7 +331,6 @@
             padding-bottom: 4px;
         }
         
-        /* OPCIONES GENÉRICAS */
         .opcion-item {
             background: rgba(255,255,255,0.08);
             padding: 6px 10px;
@@ -362,7 +356,6 @@
             font-weight: bold;
         }
         
-        /* CITA PERFECTA */
         .cita-opciones {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -413,7 +406,6 @@
             box-shadow: 0 0 15px #8a2be2;
         }
         
-        /* Mensaje de cierre */
         #mensajeCierre {
             position: fixed;
             top: 50%;
@@ -437,7 +429,6 @@
             to { opacity: 1; transform: translate(-50%, -50%); }
         }
         
-        /* RESPONSIVE */
         @media (max-width: 1100px) {
             .apartados-grid {
                 grid-template-columns: 1fr;
@@ -471,12 +462,10 @@
     </style>
 </head>
 <body>
-    <!-- MODAL -->
     <div id="modal" class="modal" onclick="cerrarModal()">
         <img id="modalImg" src="" alt="Ampliada">
     </div>
     
-    <!-- Pantalla principal -->
     <div class="container" id="pantallaPrincipal">
         <h1>💜 Para la inútil hermosa esta 💜</h1>
         <div id="preguntaTexto">¿Quieres ser mi San Valentín?</div>
@@ -489,7 +478,6 @@
         <div id="mensajeAbajo"></div>
     </div>
     
-    <!-- Pantalla SÍ -->
     <div id="pantallaSi" class="container oculto">
         <div class="hero">
             <h1>💕 TE AMO INÚTIL 💕</h1>
@@ -497,18 +485,15 @@
         </div>
         
         <div class="apartados-grid">
-            <!-- COLUMNA IZQUIERDA: Fotos espaciales -->
             <div class="apartado">
                 <h2>🌌 Nuestro Universo</h2>
                 <div class="fotos-vertical">
-                    <!-- Hubble -->
                     <div class="foto-item" onclick="abrirModal('https://i.imgur.com/uXLMV26.jpeg')">
                         <img src="https://i.imgur.com/uXLMV26.jpeg" alt="Bubble Nebula">
                         <div class="foto-caption">
-                            🌠 26 Feb 2016 - Nebulosa de la Burbuja: Una enorme burbuja creada por una estrella masiva. 7 años luz de diámetro, a 7,100 años luz en Casiopea.
+                            🌠 26 Feb 2016 - Nebulosa de la Burbuja: 7 años luz, a 7,100 años luz en Casiopea.
                         </div>
                     </div>
-                    <!-- Atlas -->
                     <div class="foto-item" onclick="abrirModal('https://i.imgur.com/NjAs6HI.png')">
                         <img src="https://i.imgur.com/NjAs6HI.png" alt="Mapa Estelar">
                         <div class="foto-caption">
@@ -518,57 +503,46 @@
                 </div>
             </div>
             
-            <!-- COLUMNA DERECHA: Películas + Ramo -->
             <div class="apartado">
                 <h2>🎬 Noche de Película</h2>
                 <p style="margin-bottom: 8px; color: #e6c3ff; font-size: 0.8em;">Clic en póster para ampliar | Clic para elegir</p>
                 <div class="peliculas-grid" id="peliculasContainer">
-                    <!-- Your Name -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Your Name')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/5SuaOF5.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/5SuaOF5.jpeg')"></div>
                         <span>Your Name</span>
                     </div>
-                    <!-- La La Land -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'La La Land')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/SzEZz46.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/SzEZz46.jpeg')"></div>
                         <span>La La Land</span>
                     </div>
-                    <!-- Interstellar -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Interstellar')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/la1oo5k.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/la1oo5k.jpeg')"></div>
                         <span>Interstellar</span>
                     </div>
-                    <!-- How to Lose a Guy -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'How to Lose a Guy')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/mOwVCjw.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/mOwVCjw.jpeg')"></div>
                         <span>How to Lose</span>
                     </div>
-                    <!-- Eternal Sunshine -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Eternal Sunshine')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/NPRIDie.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/NPRIDie.jpeg')"></div>
                         <span>Eternal Sunshine</span>
                     </div>
-                    <!-- Spider-Verse -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Spider-Verse')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/uAGo0v7.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/uAGo0v7.jpeg')"></div>
                         <span>Spider-Verse</span>
                     </div>
-                    <!-- Matrix -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Matrix')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/g4GcLOh.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/g4GcLOh.jpeg')"></div>
                         <span>Matrix</span>
                     </div>
-                    <!-- Inception -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Inception')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/Dr7Bb7z.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/Dr7Bb7z.jpeg')"></div>
                         <span>Inception</span>
                     </div>
-                    <!-- 50 First Dates -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, '50 First Dates')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/toLxhaB.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/toLxhaB.jpeg')"></div>
                         <span>50 First Dates</span>
                     </div>
-                    <!-- Game of Thrones -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Game of Thrones')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/240C0yE.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/240C0yE.jpeg')"></div>
                         <span>Game of Thrones</span>
@@ -576,12 +550,10 @@
                 </div>
                 <div id="peliculaSeleccionada" style="margin-top: 8px; color: #e6c3ff; font-weight: bold; font-size: 0.9em;"></div>
                 
-                <!-- RAMO DE FLORES -->
                 <div class="ramo-container">
                     <h3 style="color: #e6c3ff; font-size: 1.2em; margin-bottom: 10px;">🌸 CREA TU RAMO PERFECTO</h3>
                     
                     <div class="ramo-grid">
-                        <!-- FLOR PRINCIPAL -->
                         <div class="ramo-categoria">
                             <h3>🌹 Flor</h3>
                             <div class="opcion-item" onclick="seleccionarRamo('flor', 'Rosas rojas')">🌹 Rosas rojas</div>
@@ -592,7 +564,6 @@
                             <div class="opcion-item" onclick="seleccionarRamo('flor', 'Orquídeas')">🦋 Orquídeas</div>
                         </div>
                         
-                        <!-- COLOR ENVOLTORIO -->
                         <div class="ramo-categoria">
                             <h3>🎀 Envoltorio</h3>
                             <div class="opcion-item" onclick="seleccionarRamo('envoltorio', 'Kraft natural')">🟤 Kraft</div>
@@ -603,7 +574,6 @@
                             <div class="opcion-item" onclick="seleccionarRamo('envoltorio', 'Verde menta')">✅ Verde menta</div>
                         </div>
                         
-                        <!-- TAMAÑO -->
                         <div class="ramo-categoria">
                             <h3>📏 Tamaño</h3>
                             <div class="opcion-item" onclick="seleccionarRamo('tamano', 'Pequeño (10-15)')">💐 Pequeño</div>
@@ -611,7 +581,6 @@
                             <div class="opcion-item" onclick="seleccionarRamo('tamano', 'Grande (20-25)')">💐💐💐 Grande</div>
                         </div>
                         
-                        <!-- LAZO -->
                         <div class="ramo-categoria">
                             <h3>🎀 Lazo</h3>
                             <div class="opcion-item" onclick="seleccionarRamo('lazo', 'Raso blanco')">🤍 Raso blanco</div>
@@ -620,7 +589,6 @@
                             <div class="opcion-item" onclick="seleccionarRamo('lazo', 'Sin lazo')">✨ Sin lazo</div>
                         </div>
                         
-                        <!-- EXTRAS -->
                         <div class="ramo-categoria">
                             <h3>✨ Extra</h3>
                             <div class="opcion-item" onclick="seleccionarRamo('extra', 'Tarjeta con mensaje')">💌 Tarjeta</div>
@@ -635,12 +603,10 @@
                 </div>
             </div>
             
-            <!-- CITA PERFECTA -->
             <div class="apartado" style="grid-column: 1 / -1;">
                 <h2>💜 Tu Cita Perfecta</h2>
                 
                 <div class="cita-opciones">
-                    <!-- LUGAR -->
                     <div class="cita-categoria">
                         <h3>📍 Lugar</h3>
                         <div class="opcion-item" onclick="seleccionarCita('lugar', 'Tranquilo')">🌿 Tranquilo</div>
@@ -648,7 +614,6 @@
                         <div class="opcion-item" onclick="seleccionarCita('lugar', 'Aventura')">🌟 Aventura</div>
                     </div>
                     
-                    <!-- COMIDA -->
                     <div class="cita-categoria">
                         <h3>🍽️ Comida</h3>
                         <div class="opcion-item" onclick="seleccionarCita('comida', 'Sushi')">🍣 Sushi</div>
@@ -658,7 +623,6 @@
                         <div class="opcion-item" onclick="seleccionarCita('comida', 'Helados')">🍦 Helados</div>
                     </div>
                     
-                    <!-- BEBIDA -->
                     <div class="cita-categoria">
                         <h3>🥂 Bebida</h3>
                         <div class="opcion-item" onclick="seleccionarCita('bebida', 'Café')">☕ Café</div>
@@ -667,7 +631,6 @@
                         <div class="opcion-item" onclick="seleccionarCita('bebida', 'Vino')">🍷 Vino</div>
                     </div>
                     
-                    <!-- REGALO -->
                     <div class="cita-categoria">
                         <h3>🎁 Regalo</h3>
                         <div class="opcion-item" onclick="seleccionarCita('regalo', 'Anillo')">💍 Anillo</div>
@@ -678,7 +641,6 @@
                         <div class="opcion-item" onclick="seleccionarCita('regalo', 'Fotos')">📸 Fotos</div>
                     </div>
                     
-                    <!-- AMBIENTE -->
                     <div class="cita-categoria">
                         <h3>🎵 Ambiente</h3>
                         <div class="opcion-item" onclick="seleccionarCita('ambiente', 'Música')">🎹 Música</div>
@@ -686,7 +648,6 @@
                         <div class="opcion-item" onclick="seleccionarCita('ambiente', 'Juegos')">🎮 Juegos</div>
                     </div>
                     
-                    <!-- FINAL -->
                     <div class="cita-categoria">
                         <h3>🌙 Final</h3>
                         <div class="opcion-item" onclick="seleccionarCita('final', 'Caminar')">🚶 Caminar</div>
@@ -710,7 +671,7 @@
 
     <script>
         // ===========================================
-        // SISTEMA DE NO - SOLO EL NO SE MUEVE A LA DERECHA
+        // SISTEMA DE NO - CON MOVIMIENTOS OPUESTOS
         // ===========================================
         const pantallaPrincipal = document.getElementById('pantallaPrincipal');
         const pantallaSi = document.getElementById('pantallaSi');
@@ -722,50 +683,82 @@
         let contadorNo = 0;
         let escalaSi = 1;
         let escalaNo = 1;
-        // El SÍ NO se desplaza, solo el NO
-        let desplazamientoNo = 0;
         
-        // Evento SÍ
+        // Movimientos: SÍ hacia arriba-izquierda (negativo), NO hacia abajo-derecha (positivo)
+        let moverSiX = 0;     // Izquierda: negativo
+        let moverSiY = 0;     // Arriba: negativo
+        let moverNoX = 0;     // Derecha: positivo
+        let moverNoY = 0;     // Abajo: positivo
+        
         btnSi.addEventListener('click', function() {
             pantallaPrincipal.classList.add('oculto');
             pantallaSi.classList.remove('oculto');
             window.scrollTo(0, 0);
         });
         
-        // Función principal del NO
         function manejarNo() {
             contadorNo++;
             
             if(contadorNo === 1) {
                 preguntaTexto.textContent = 'En serio, ¿quieres ser mi San Valentín?';
                 mensajeAbajo.textContent = '¿Segura? 💜';
+                
                 escalaSi += 0.3;
                 escalaNo = 0.85;
-                desplazamientoNo = 40;      // Solo el NO se mueve
+                
+                moverSiX = -15;   // Izquierda
+                moverSiY = -15;   // Arriba
+                moverNoX = 25;     // Derecha
+                moverNoY = 20;     // Abajo
+                
             } else if(contadorNo === 2) {
                 preguntaTexto.textContent = '¿En serio estás tan segura? 🥺';
                 mensajeAbajo.textContent = '¿De verdad, de verdad?';
+                
                 escalaSi += 0.35;
                 escalaNo = 0.7;
-                desplazamientoNo = 80;
+                
+                moverSiX = -30;
+                moverSiY = -30;
+                moverNoX = 50;
+                moverNoY = 40;
+                
             } else if(contadorNo === 3) {
                 preguntaTexto.textContent = '¿Última oportunidad...? 💔';
                 mensajeAbajo.textContent = 'Piénsalo bien...';
+                
                 escalaSi += 0.4;
                 escalaNo = 0.55;
-                desplazamientoNo = 120;
+                
+                moverSiX = -50;
+                moverSiY = -50;
+                moverNoX = 80;
+                moverNoY = 65;
+                
             } else if(contadorNo === 4) {
                 preguntaTexto.textContent = '¿De verdad vas a decir que no? 😭';
                 mensajeAbajo.textContent = 'El SÍ es mucho más grande ahora...';
+                
                 escalaSi += 0.5;
                 escalaNo = 0.4;
-                desplazamientoNo = 200;
+                
+                moverSiX = -80;
+                moverSiY = -80;
+                moverNoX = 120;
+                moverNoY = 100;
+                
             } else if(contadorNo === 5) {
                 preguntaTexto.textContent = '¿Última llamada? 📢';
                 mensajeAbajo.textContent = 'El SÍ te está esperando...';
+                
                 escalaSi += 0.6;
                 escalaNo = 0.25;
-                desplazamientoNo = 400;      // ¡CASI FUERA DEL CARTEL!
+                
+                moverSiX = -120;
+                moverSiY = -120;
+                moverNoX = 200;
+                moverNoY = 160;
+                
             } else if(contadorNo === 6) {
                 pantallaPrincipal.remove();
                 const mensajeFinal = document.createElement('div');
@@ -775,40 +768,37 @@
                 return;
             }
             
-            // Aplicar cambios visuales
-            btnSi.style.transform = `scale(${escalaSi})`;  // SÍ solo escala, sin desplazamiento
-            btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px)`;  // NO escala y se desplaza
+            // Aplicar transformaciones
+            btnSi.style.transform = `scale(${escalaSi}) translate(${moverSiX}px, ${moverSiY}px)`;
+            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
+            
             btnNo.style.opacity = '1';
             btnSi.style.boxShadow = `0 0 ${30 + contadorNo * 10}px rgba(138,43,226,0.9)`;
         }
         
-        // Evento click normal (PC)
         btnNo.addEventListener('click', manejarNo);
         
-        // Eventos táctiles (móvil)
         btnNo.addEventListener('touchstart', function(e) {
             e.preventDefault();
             if(contadorNo < 5) {
-                // Efecto de movimiento aleatorio al tocar
                 const x = Math.random() * 20 - 10;
                 const y = Math.random() * 20 - 10;
-                btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px) translate(${x}px, ${y}px)`;
+                btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX + x}px, ${moverNoY + y}px)`;
             }
         });
         
         btnNo.addEventListener('touchend', function(e) {
             e.preventDefault();
-            // Restaurar posición y ejecutar función
-            btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px)`;
+            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
             manejarNo();
         });
         
         btnNo.addEventListener('touchcancel', function() {
-            btnNo.style.transform = `scale(${escalaNo}) translateX(${desplazamientoNo}px)`;
+            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
         });
         
         // ===========================================
-        // FUNCIONES GENERALES
+        // RESTO DE FUNCIONES (sin cambios)
         // ===========================================
         window.abrirModal = function(src) {
             document.getElementById('modal').classList.add('active');
@@ -821,24 +811,17 @@
         
         document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarModal(); });
         
-        // ===========================================
-        // PELÍCULAS
-        // ===========================================
         window.seleccionarPelicula = function(elemento, nombre) {
             document.querySelectorAll('.pelicula-card').forEach(op => op.classList.remove('seleccionada'));
             elemento.classList.add('seleccionada');
             document.getElementById('peliculaSeleccionada').innerHTML = `🎬 Veremos: ${nombre}`;
         };
         
-        // ===========================================
-        // RAMO DE FLORES
-        // ===========================================
         const ramoSeleccionado = {};
         
         window.seleccionarRamo = function(categoria, valor) {
             const categoriaElement = event.target.parentElement;
             categoriaElement.querySelectorAll('.opcion-item').forEach(op => op.classList.remove('seleccionada'));
-            
             event.target.classList.add('seleccionada');
             ramoSeleccionado[categoria] = valor;
             
@@ -852,15 +835,11 @@
             document.getElementById('resumenRamo').innerHTML = '🌸 ' + partes.join(' · ');
         };
         
-        // ===========================================
-        // CITA PERFECTA
-        // ===========================================
         const citaSeleccionada = {};
         
         window.seleccionarCita = function(categoria, valor) {
             const categoriaElement = event.target.parentElement;
             categoriaElement.querySelectorAll('.opcion-item').forEach(op => op.classList.remove('seleccionada'));
-            
             event.target.classList.add('seleccionada');
             citaSeleccionada[categoria] = valor;
             
@@ -875,24 +854,17 @@
             document.getElementById('resumenCita').innerHTML = '💜 ' + partes.join(' · ');
         };
         
-        // ===========================================
-        // ENVÍO COMBINADO
-        // ===========================================
         window.enviarTodo = function() {
             const pelicula = document.querySelector('.pelicula-card.seleccionada')?.querySelector('span').textContent || 'No seleccionada';
             
             let mensaje = '💜 MI PLAN PERFECTO DE SAN VALENTÍN 💜\n\n';
-            
-            mensaje += `🎬 PELÍCULA ELEGIDA:\n`;
-            mensaje += `   ${pelicula}\n\n`;
-            
+            mensaje += `🎬 PELÍCULA ELEGIDA:\n   ${pelicula}\n\n`;
             mensaje += `🌸 MI RAMO IDEAL:\n`;
             if(ramoSeleccionado.flor) mensaje += `   🌹 Flor: ${ramoSeleccionado.flor}\n`;
             if(ramoSeleccionado.envoltorio) mensaje += `   🎀 Envoltorio: ${ramoSeleccionado.envoltorio}\n`;
             if(ramoSeleccionado.tamano) mensaje += `   📏 Tamaño: ${ramoSeleccionado.tamano}\n`;
             if(ramoSeleccionado.lazo) mensaje += `   🎀 Lazo: ${ramoSeleccionado.lazo}\n`;
             if(ramoSeleccionado.extra) mensaje += `   ✨ Extra: ${ramoSeleccionado.extra}\n`;
-            
             mensaje += `\n💜 MI CITA PERFECTA:\n`;
             if(citaSeleccionada.lugar) mensaje += `   📍 Lugar: ${citaSeleccionada.lugar}\n`;
             if(citaSeleccionada.comida) mensaje += `   🍽️ Comida: ${citaSeleccionada.comida}\n`;
@@ -900,7 +872,6 @@
             if(citaSeleccionada.regalo) mensaje += `   🎁 Regalo: ${citaSeleccionada.regalo}\n`;
             if(citaSeleccionada.ambiente) mensaje += `   🎵 Ambiente: ${citaSeleccionada.ambiente}\n`;
             if(citaSeleccionada.final) mensaje += `   🌙 Final: ${citaSeleccionada.final}\n`;
-            
             mensaje += `\n✨ Te ama, tu inútil favorito ✨`;
             
             window.location.href = `mailto:gilemmanuel50@gmail.com?subject=${encodeURIComponent('💜 Mi San Valentín Perfecto')}&body=${encodeURIComponent(mensaje)}`;
@@ -909,5 +880,3 @@
     </script>
 </body>
 </html>
-
-
