@@ -71,6 +71,7 @@
             font-weight: bold;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             min-width: 120px;
+            -webkit-tap-highlight-color: transparent;
         }
         
         #btnSi {
@@ -87,6 +88,7 @@
             border: 2px solid #fff;
             transform: scale(1);
             z-index: 10;
+            touch-action: manipulation;
         }
         
         #mensajeAbajo {
@@ -302,7 +304,7 @@
             color: #e6c3ff;
         }
         
-        /* RAMO DE FLORES (debajo de películas) */
+        /* RAMO DE FLORES */
         .ramo-container {
             margin-top: 25px;
             padding: 15px;
@@ -342,6 +344,7 @@
             transition: all 0.3s;
             border: 1px solid transparent;
             font-size: 0.85em;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .opcion-item:hover {
@@ -513,7 +516,7 @@
                 </div>
             </div>
             
-            <!-- COLUMNA DERECHA: Películas + Ramo (debajo) -->
+            <!-- COLUMNA DERECHA: Películas + Ramo -->
             <div class="apartado">
                 <h2>🎬 Noche de Película</h2>
                 <p style="margin-bottom: 8px; color: #e6c3ff; font-size: 0.8em;">Clic en póster para ampliar | Clic para elegir</p>
@@ -571,7 +574,7 @@
                 </div>
                 <div id="peliculaSeleccionada" style="margin-top: 8px; color: #e6c3ff; font-weight: bold; font-size: 0.9em;"></div>
                 
-                <!-- RAMO DE FLORES (debajo de películas) -->
+                <!-- RAMO DE FLORES -->
                 <div class="ramo-container">
                     <h3 style="color: #e6c3ff; font-size: 1.2em; margin-bottom: 10px;">🌸 CREA TU RAMO PERFECTO</h3>
                     
@@ -630,7 +633,7 @@
                 </div>
             </div>
             
-            <!-- CITA PERFECTA (abajo, ocupando ambas columnas) -->
+            <!-- CITA PERFECTA -->
             <div class="apartado" style="grid-column: 1 / -1;">
                 <h2>💜 Tu Cita Perfecta</h2>
                 
@@ -705,7 +708,7 @@
 
     <script>
         // ===========================================
-        // SISTEMA DE NO
+        // SISTEMA DE NO - CORREGIDO PARA MÓVIL
         // ===========================================
         const pantallaPrincipal = document.getElementById('pantallaPrincipal');
         const pantallaSi = document.getElementById('pantallaSi');
@@ -719,13 +722,15 @@
         let escalaNo = 1;
         let desplazamiento = 0;
         
+        // Evento SÍ
         btnSi.addEventListener('click', function() {
             pantallaPrincipal.classList.add('oculto');
             pantallaSi.classList.remove('oculto');
             window.scrollTo(0, 0);
         });
         
-        btnNo.addEventListener('click', function() {
+        // Función principal del NO
+        function manejarNo() {
             contadorNo++;
             
             if(contadorNo === 1) {
@@ -767,23 +772,36 @@
                 return;
             }
             
+            // Aplicar cambios visuales
             btnSi.style.transform = `scale(${escalaSi})`;
             btnSi.style.marginRight = `${desplazamiento}px`;
             btnNo.style.transform = `scale(${escalaNo})`;
             btnNo.style.opacity = '1';
             btnSi.style.boxShadow = `0 0 ${30 + contadorNo * 10}px rgba(138,43,226,0.9)`;
-        });
+        }
         
+        // Evento click normal (PC)
+        btnNo.addEventListener('click', manejarNo);
+        
+        // Eventos táctiles (móvil)
         btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault();
             if(contadorNo < 5) {
-                e.preventDefault();
+                // Efecto de movimiento al tocar
                 const x = Math.random() * 30 - 15;
                 const y = Math.random() * 30 - 15;
                 btnNo.style.transform = `scale(${escalaNo}) translate(${x}px, ${y}px)`;
             }
         });
         
-        btnNo.addEventListener('touchend', function() {
+        btnNo.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            // Restaurar posición y ejecutar función
+            btnNo.style.transform = `scale(${escalaNo})`;
+            manejarNo();
+        });
+        
+        btnNo.addEventListener('touchcancel', function() {
             btnNo.style.transform = `scale(${escalaNo})`;
         });
         
@@ -811,20 +829,17 @@
         };
         
         // ===========================================
-        // RAMO DE FLORES (sin descripciones)
+        // RAMO DE FLORES
         // ===========================================
         const ramoSeleccionado = {};
         
         window.seleccionarRamo = function(categoria, valor) {
-            // Remover selección de la misma categoría
             const categoriaElement = event.target.parentElement;
             categoriaElement.querySelectorAll('.opcion-item').forEach(op => op.classList.remove('seleccionada'));
             
-            // Seleccionar nueva opción
             event.target.classList.add('seleccionada');
             ramoSeleccionado[categoria] = valor;
             
-            // Actualizar resumen
             const partes = [];
             if(ramoSeleccionado.flor) partes.push(`🌹 ${ramoSeleccionado.flor}`);
             if(ramoSeleccionado.envoltorio) partes.push(`🎀 ${ramoSeleccionado.envoltorio}`);
@@ -859,18 +874,16 @@
         };
         
         // ===========================================
-        // ENVÍO COMBINADO (TODO INCLUIDO)
+        // ENVÍO COMBINADO
         // ===========================================
         window.enviarTodo = function() {
             const pelicula = document.querySelector('.pelicula-card.seleccionada')?.querySelector('span').textContent || 'No seleccionada';
             
             let mensaje = '💜 MI PLAN PERFECTO DE SAN VALENTÍN 💜\n\n';
             
-            // Película
             mensaje += `🎬 PELÍCULA ELEGIDA:\n`;
             mensaje += `   ${pelicula}\n\n`;
             
-            // Ramo
             mensaje += `🌸 MI RAMO IDEAL:\n`;
             if(ramoSeleccionado.flor) mensaje += `   🌹 Flor: ${ramoSeleccionado.flor}\n`;
             if(ramoSeleccionado.envoltorio) mensaje += `   🎀 Envoltorio: ${ramoSeleccionado.envoltorio}\n`;
@@ -878,7 +891,6 @@
             if(ramoSeleccionado.lazo) mensaje += `   🎀 Lazo: ${ramoSeleccionado.lazo}\n`;
             if(ramoSeleccionado.extra) mensaje += `   ✨ Extra: ${ramoSeleccionado.extra}\n`;
             
-            // Cita
             mensaje += `\n💜 MI CITA PERFECTA:\n`;
             if(citaSeleccionada.lugar) mensaje += `   📍 Lugar: ${citaSeleccionada.lugar}\n`;
             if(citaSeleccionada.comida) mensaje += `   🍽️ Comida: ${citaSeleccionada.comida}\n`;
