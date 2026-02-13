@@ -59,7 +59,7 @@
             align-items: center;
             flex-wrap: wrap;
             position: relative;
-            min-height: 200px; /* Para dar espacio a los movimientos */
+            min-height: 150px;
         }
         
         button {
@@ -73,7 +73,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             min-width: 120px;
             -webkit-tap-highlight-color: transparent;
-            will-change: transform;
+            position: relative; /* Importante para z-index */
         }
         
         #btnSi {
@@ -81,7 +81,7 @@
             color: white;
             border: 2px solid #fff;
             transform: scale(1);
-            z-index: 20;
+            z-index: 1; /* Menor que el NO inicialmente */
         }
         
         #btnNo {
@@ -89,7 +89,7 @@
             color: white;
             border: 2px solid #fff;
             transform: scale(1);
-            z-index: 10;
+            z-index: 2; /* Mayor que el SÍ para que esté encima */
             touch-action: manipulation;
         }
         
@@ -106,7 +106,7 @@
             display: none !important;
         }
         
-        /* Pantalla de SÍ (resto del código sin cambios) */
+        /* Pantalla de SÍ (resto sin cambios) */
         #pantallaSi {
             width: 100%;
             max-width: 1600px;
@@ -449,14 +449,22 @@
                 grid-template-columns: 1fr;
             }
             body { padding: 10px; }
+            
+            /* En móvil, aseguramos que el NO nunca quede debajo */
+            .botones {
+                flex-direction: column;
+                gap: 15px;
+            }
+            #btnSi, #btnNo {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
         }
         
         @media (max-width: 480px) {
             .peliculas-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .botones {
-                flex-direction: column;
             }
         }
     </style>
@@ -507,42 +515,52 @@
                 <h2>🎬 Noche de Película</h2>
                 <p style="margin-bottom: 8px; color: #e6c3ff; font-size: 0.8em;">Clic en póster para ampliar | Clic para elegir</p>
                 <div class="peliculas-grid" id="peliculasContainer">
+                    <!-- Your Name -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Your Name')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/5SuaOF5.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/5SuaOF5.jpeg')"></div>
                         <span>Your Name</span>
                     </div>
+                    <!-- La La Land -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'La La Land')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/SzEZz46.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/SzEZz46.jpeg')"></div>
                         <span>La La Land</span>
                     </div>
+                    <!-- Interstellar -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Interstellar')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/la1oo5k.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/la1oo5k.jpeg')"></div>
                         <span>Interstellar</span>
                     </div>
+                    <!-- How to Lose a Guy -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'How to Lose a Guy')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/mOwVCjw.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/mOwVCjw.jpeg')"></div>
                         <span>How to Lose</span>
                     </div>
+                    <!-- Eternal Sunshine -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Eternal Sunshine')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/NPRIDie.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/NPRIDie.jpeg')"></div>
                         <span>Eternal Sunshine</span>
                     </div>
+                    <!-- Spider-Verse -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Spider-Verse')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/uAGo0v7.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/uAGo0v7.jpeg')"></div>
                         <span>Spider-Verse</span>
                     </div>
+                    <!-- Matrix -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Matrix')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/g4GcLOh.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/g4GcLOh.jpeg')"></div>
                         <span>Matrix</span>
                     </div>
+                    <!-- Inception -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Inception')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/Dr7Bb7z.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/Dr7Bb7z.jpeg')"></div>
                         <span>Inception</span>
                     </div>
+                    <!-- 50 First Dates -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, '50 First Dates')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/toLxhaB.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/toLxhaB.jpeg')"></div>
                         <span>50 First Dates</span>
                     </div>
+                    <!-- Game of Thrones -->
                     <div class="pelicula-card" onclick="seleccionarPelicula(this, 'Game of Thrones')">
                         <div class="pelicula-poster" style="background-image: url('https://i.imgur.com/240C0yE.jpeg')" onclick="event.stopPropagation(); abrirModal('https://i.imgur.com/240C0yE.jpeg')"></div>
                         <span>Game of Thrones</span>
@@ -671,7 +689,7 @@
 
     <script>
         // ===========================================
-        // SISTEMA DE NO - CON MOVIMIENTOS OPUESTOS
+        // SISTEMA DE NO - SIN DESPLAZAMIENTOS
         // ===========================================
         const pantallaPrincipal = document.getElementById('pantallaPrincipal');
         const pantallaSi = document.getElementById('pantallaSi');
@@ -683,12 +701,6 @@
         let contadorNo = 0;
         let escalaSi = 1;
         let escalaNo = 1;
-        
-        // Movimientos: SÍ hacia arriba-izquierda (negativo), NO hacia abajo-derecha (positivo)
-        let moverSiX = 0;     // Izquierda: negativo
-        let moverSiY = 0;     // Arriba: negativo
-        let moverNoX = 0;     // Derecha: positivo
-        let moverNoY = 0;     // Abajo: positivo
         
         btnSi.addEventListener('click', function() {
             pantallaPrincipal.classList.add('oculto');
@@ -702,62 +714,32 @@
             if(contadorNo === 1) {
                 preguntaTexto.textContent = 'En serio, ¿quieres ser mi San Valentín?';
                 mensajeAbajo.textContent = '¿Segura? 💜';
-                
                 escalaSi += 0.3;
                 escalaNo = 0.85;
-                
-                moverSiX = -15;   // Izquierda
-                moverSiY = -15;   // Arriba
-                moverNoX = 25;     // Derecha
-                moverNoY = 20;     // Abajo
                 
             } else if(contadorNo === 2) {
                 preguntaTexto.textContent = '¿En serio estás tan segura? 🥺';
                 mensajeAbajo.textContent = '¿De verdad, de verdad?';
-                
                 escalaSi += 0.35;
                 escalaNo = 0.7;
-                
-                moverSiX = -30;
-                moverSiY = -30;
-                moverNoX = 50;
-                moverNoY = 40;
                 
             } else if(contadorNo === 3) {
                 preguntaTexto.textContent = '¿Última oportunidad...? 💔';
                 mensajeAbajo.textContent = 'Piénsalo bien...';
-                
                 escalaSi += 0.4;
                 escalaNo = 0.55;
-                
-                moverSiX = -50;
-                moverSiY = -50;
-                moverNoX = 80;
-                moverNoY = 65;
                 
             } else if(contadorNo === 4) {
                 preguntaTexto.textContent = '¿De verdad vas a decir que no? 😭';
                 mensajeAbajo.textContent = 'El SÍ es mucho más grande ahora...';
-                
                 escalaSi += 0.5;
                 escalaNo = 0.4;
-                
-                moverSiX = -80;
-                moverSiY = -80;
-                moverNoX = 120;
-                moverNoY = 100;
                 
             } else if(contadorNo === 5) {
                 preguntaTexto.textContent = '¿Última llamada? 📢';
                 mensajeAbajo.textContent = 'El SÍ te está esperando...';
-                
                 escalaSi += 0.6;
                 escalaNo = 0.25;
-                
-                moverSiX = -120;
-                moverSiY = -120;
-                moverNoX = 200;
-                moverNoY = 160;
                 
             } else if(contadorNo === 6) {
                 pantallaPrincipal.remove();
@@ -768,9 +750,13 @@
                 return;
             }
             
-            // Aplicar transformaciones
-            btnSi.style.transform = `scale(${escalaSi}) translate(${moverSiX}px, ${moverSiY}px)`;
-            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
+            // Aplicar solo escalas, sin desplazamientos
+            btnSi.style.transform = `scale(${escalaSi})`;
+            btnNo.style.transform = `scale(${escalaNo})`;
+            
+            // Ajustar z-index para que el NO siempre esté encima
+            btnNo.style.zIndex = '3';
+            btnSi.style.zIndex = '1';
             
             btnNo.style.opacity = '1';
             btnSi.style.boxShadow = `0 0 ${30 + contadorNo * 10}px rgba(138,43,226,0.9)`;
@@ -778,23 +764,25 @@
         
         btnNo.addEventListener('click', manejarNo);
         
+        // Eventos táctiles para móvil (solo para el efecto de movimiento al tocar)
         btnNo.addEventListener('touchstart', function(e) {
             e.preventDefault();
             if(contadorNo < 5) {
-                const x = Math.random() * 20 - 10;
-                const y = Math.random() * 20 - 10;
-                btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX + x}px, ${moverNoY + y}px)`;
+                // Pequeño movimiento aleatorio al tocar
+                const x = Math.random() * 15 - 7.5;
+                const y = Math.random() * 15 - 7.5;
+                btnNo.style.transform = `scale(${escalaNo}) translate(${x}px, ${y}px)`;
             }
         });
         
         btnNo.addEventListener('touchend', function(e) {
             e.preventDefault();
-            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
+            btnNo.style.transform = `scale(${escalaNo})`;
             manejarNo();
         });
         
         btnNo.addEventListener('touchcancel', function() {
-            btnNo.style.transform = `scale(${escalaNo}) translate(${moverNoX}px, ${moverNoY}px)`;
+            btnNo.style.transform = `scale(${escalaNo})`;
         });
         
         // ===========================================
